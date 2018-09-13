@@ -2,7 +2,7 @@
   <div class="height100">
     <div class="header-container">
       <h2 class="text-center">Pair <small>for: {{currExchange.id}}</small></h2>
-      <input type="text" v-model="pairSearch" placeholder="Type an exchange name"></input>
+      <input type="text" v-model="pairSearch" placeholder="Type a pair name"></input>
     </div>
     <div class="items-container">
       <h4 class="text-center" v-show="!currExchange.symbols && !errMsg">Chose an exchange</h4>

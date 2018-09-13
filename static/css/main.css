@@ -16,14 +16,18 @@ body{
 }
 
 .header-container{
-  height: 100px;
-  padding: 0 15px 5px;
+  height: 70px;
+  padding: 0 15px;
   border: solid grey 1px;
   overflow: auto;
 }
 
+.header-container > *{
+  margin: 5px;
+}
+
 .items-container{
-  height: calc(100% - 100px);
+  height: calc(100% - 70px);
   padding: 10px;
   border-top: solid grey 1px;
   overflow: auto;

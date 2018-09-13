@@ -92,7 +92,7 @@ export default {
 <style scoped>
 
 th, td{
-  padding: 0 5px;
+  padding: 0 10px;
 }
 
 tbody > tr:hover{

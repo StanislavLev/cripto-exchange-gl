@@ -24,18 +24,21 @@ var config = {
           title: 'Exchange',
           type: 'component',
           componentName: 'template',
+          isClosable: false,
           componentState: { id: 'exchange', vueTemplate: Exchange }
         },
         {
           title: 'Pair',
           type: 'component',
           componentName: 'template',
+          isClosable: false,
           componentState: { id: 'pair', vueTemplate: Pair }
         },
         {
           title: 'Trades',
           type: 'component',
           componentName: 'template',
+          isClosable: false,
           componentState: { id: 'trades', vueTemplate: Trades }
         }
       ]
