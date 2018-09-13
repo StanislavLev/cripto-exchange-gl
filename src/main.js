@@ -1,13 +1,14 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
-import Comp1  from '@/components/Comp1.vue';
-import Comp2  from '@/components/Comp2.vue';
-import Comp3  from '@/components/Comp3.vue';
+import Exchange   from '@/components/exchange/Exchange.vue';
+import Pair       from '@/components/pair/Pair.vue';
+import Trades     from '@/components/trades/Trades.vue';
 
 
 Vue.config.productionTip = false;
 
+export const bus = new Vue();
 /* eslint-disable no-new */
 //let VueApp = new Vue({
 //  el: '#app',
@@ -23,19 +24,19 @@ var config = {
           title: 'Exchange',
           type: 'component',
           componentName: 'template',
-          componentState: { id: 'exchange', vueTemplate: Comp1 }
+          componentState: { id: 'exchange', vueTemplate: Exchange }
         },
         {
           title: 'Pair',
           type: 'component',
           componentName: 'template',
-          componentState: { id: 'pair', vueTemplate: Comp2 }
+          componentState: { id: 'pair', vueTemplate: Pair }
         },
         {
           title: 'Trades',
           type: 'component',
           componentName: 'template',
-          componentState: { id: 'trades', vueTemplate: Comp3 }
+          componentState: { id: 'trades', vueTemplate: Trades }
         }
       ]
     }
