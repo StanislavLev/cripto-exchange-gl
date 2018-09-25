@@ -1,14 +1,14 @@
 <template>
   <div class="height100">
     <div class="header-container">
-      <h2 class="text-center">Pair <small>for: {{currExchange.id}}</small></h2>
+      <h2 class="text-center">Pair <small>for: {{exchangeID}}</small></h2>
       <input type="text" v-model="pairSearch" placeholder="Type a pair name"></input>
     </div>
     <div class="items-container">
-      <h4 class="text-center" v-show="!currExchange.symbols && !errMsg">Chose an exchange</h4>
-      <h4 class="text-center" v-show="errMsg">{{errMsg}}</h4>
+      <h4 class="text-center" v-show="symbols.length == 0 && !loadMarketsErr">Chose an exchange</h4>
+      <h4 class="text-center" v-show="loadMarketsErr">{{loadMarketsErr}}</h4>
       <ul>
-        <li v-for="pair in currExchange.symbols" @click="findTrades(currExchange, pair)" v-show="pair.toLowerCase().indexOf(pairSearch.toLowerCase())!=-1">{{ pair }}</li>
+        <li v-for="pair in symbols" @click="updatePair(pair)" v-show="pairSearch == null || pair.toLowerCase().indexOf(pairSearch.toLowerCase())!=-1">{{ pair }}</li>
       </ul>
     </div>
   </div>
@@ -16,31 +16,34 @@
 
 <script>
 
-import {bus} from '@/main.js';
-
 export default {
   name: 'Pair',
-  data() {
-    return {
-      errMsg: '',
-      currExchange: {},
-      pairSearch: '',
-    };
-  },
-  methods: {
-    findTrades(exchange4trades, pair4trades) {
-      bus.$emit('PairChosen', exchange4trades, pair4trades);
+
+  computed: {
+    exchangeID(){
+      return this.$store.state.exchangeID;
+    },
+    symbols(){
+      return this.$store.state.symbols;
+    },
+    loadMarketsErr(){
+      return this.$store.state.loadMarketsErr;
+    },
+    pairSearch: {
+      get: function(){
+        return this.$store.state.pairSearch;
+      },
+      set: function(newVal){
+        this.$store.state.pairSearch = newVal;
+        localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
+      },
     },
   },
-  created(){
-    bus.$on('exchangeChosen', (exchange)=>{
-      this.currExchange = exchange;
-      this.errMsg = '';
-    });
-    bus.$on('exchangeChosenErr', (err)=>{
-      this.errMsg = err;
-      this.currExchange = {};
-    });
+  methods: {
+    updatePair(newVal) {
+      this.$store.state.pair = newVal;
+      localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
+    },
   },
 };
 </script>

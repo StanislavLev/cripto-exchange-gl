@@ -1,12 +1,12 @@
 <template>
-  <div class="height100">
+  <div id='exchange' class="height100">
     <div class="header-container">
       <h2 class="text-center">Exchange</h2>
       <input type="text" v-model="exchangeSearch" placeholder="Type an exchange name"></input>
     </div>
     <div class="items-container">
       <ul>
-        <li v-for="exchange in exchanges" @click="findPair(exchange)" v-show="exchange.toLowerCase().indexOf(exchangeSearch.toLowerCase())!=-1">{{ exchange }}</li>
+        <li v-for="exchangeID in exchanges" @click="updateExchange(exchangeID)" v-show="exchangeSearch == null || exchangeID.toLowerCase().indexOf(exchangeSearch.toLowerCase())!=-1">{{ exchangeID }}</li>
       </ul>
     </div>
   </div>
@@ -14,28 +14,28 @@
 
 <script>
 
-import {bus} from '@/main.js';
-
 export default {
   name: 'Exchange',
   data() {
     return {
       exchanges: ccxt.exchanges,
-      exchangeSearch: '',
     };
   },
+  computed: {
+    exchangeSearch: {
+      get: function(){
+        return this.$store.state.exchangeSearch;
+      },
+      set: function(newVal){
+        this.$store.state.exchangeSearch = newVal;
+        localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
+      }
+    }
+  },
   methods: {
-    findPair(exchange4pair) {
-      (async () => {
-        let currExchange = new ccxt[exchange4pair]();
-        currExchange.enableRateLimit = true;
-        try {
-          await currExchange.loadMarkets();
-          bus.$emit('exchangeChosen', currExchange);
-        } catch(err) {
-          bus.$emit('exchangeChosenErr', "Failed to fetch the exchange info, please try another one.");
-        }      
-      })();
+    updateExchange(newVal) {
+      this.$store.state.exchangeID = newVal;
+      localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
     },
   },
 };
