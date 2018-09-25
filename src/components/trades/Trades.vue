@@ -55,27 +55,28 @@ export default {
   },  
   methods: {
     loadMarkets() {
-      (async () => {
-        this.currExchange = new ccxt[this.exchangeID]();
-        this.currExchange.enableRateLimit = true;
-        this.$store.state.pair = '';
-        this.allTrades = [];
-        this.$store.state.symbols = [];
-        this.$store.state.loadMarketsErr = '';
-        this.$store.state.fetchTradesErr = '';
-        if(this.fetchTradesInterval){
-          clearInterval(this.fetchTradesInterval);
-        }
-        try {
-          await this.currExchange.loadMarkets();
-          this.$store.state.symbols = this.currExchange.symbols;
-        } catch(err) {
-          this.$store.state.loadMarketsErr = 'Failed to fetch the exchange info, please try another one.';
-        } finally {
-          localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
-          this.clickTradesHeader();
-        }        
-      })();
+      if(this.exchangeID != ''){
+        (async () => {
+          this.currExchange = new ccxt[this.exchangeID]();
+          this.currExchange.enableRateLimit = true;
+          this.allTrades = [];
+          this.$store.state.symbols = [];
+          this.$store.state.loadMarketsErr = '';
+          this.$store.state.fetchTradesErr = '';
+          if(this.fetchTradesInterval){
+            clearInterval(this.fetchTradesInterval);
+          }
+          try {
+            await this.currExchange.loadMarkets();
+            this.$store.state.symbols = this.currExchange.symbols;
+          } catch(err) {
+            this.$store.state.loadMarketsErr = 'Failed to fetch the exchange info, please try another one.';
+          } finally {
+            localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
+            this.clickTradesHeader();
+          }        
+        })();
+      }
     },
     fetchTrades() {
       if(this.pair != ''){
@@ -125,8 +126,14 @@ export default {
     }
   },
   watch: {
-    exchangeID: "loadMarkets",
-    pair: "fetchTrades",
+    exchangeID: {
+      handler: "loadMarkets",
+      immediate: true
+    },
+    pair: {
+      handler: "fetchTrades",
+      immediate: true
+    }
   },
 };
 </script>

@@ -35,6 +35,7 @@ export default {
   methods: {
     updateExchange(newVal) {
       this.$store.state.exchangeID = newVal;
+      this.$store.state.pair = "";
       localStorage.setItem( 'localStorageStore', JSON.stringify(this.$store.state) );
     },
   },
