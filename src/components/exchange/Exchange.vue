@@ -18,7 +18,7 @@ export default {
   name: 'Exchange',
   data() {
     return {
-      exchanges: ccxt.exchanges,
+      exchanges: this.$store.state.NoCORSExchanges,
     };
   },
   computed: {
