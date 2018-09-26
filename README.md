@@ -1,4 +1,4 @@
-# cripto-exchange-gl
+# crypto-exchange-gl
 
 > Web page that allows to get info about cryptocurrency trading
 
